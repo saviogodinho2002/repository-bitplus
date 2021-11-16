@@ -39,7 +39,7 @@
         android:id="@+id/recycler_main"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="150dp"
         android:background="@color/greyBlack"
         android:foregroundGravity="center_vertical|center|center_horizontal|fill"
         android:minWidth="40dp"
@@ -49,29 +49,30 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/txt_atual_number"
+        android:id="@+id/txt_atual_bit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:text="Bit : -"
         android:textColor="@color/white"
         android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_main" />
+        app:layout_constraintBottom_toBottomOf="@+id/txt_carry"
+        app:layout_constraintStart_toEndOf="@+id/txt_carry"
+        app:layout_constraintTop_toTopOf="@+id/txt_carry" />
 
     <TextView
         android:id="@+id/txt_state"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginTop="5dp"
-        android:text="trocou para: -\nproximo bit: -"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="É 0?\n\n"
         android:textColor="@color/white"
-        android:textSize="18dp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_atual_number" />
+        app:layout_constraintTop_toBottomOf="@+id/recycler_main" />
 
     <TextView
         android:id="@+id/txt_carry"
@@ -81,6 +82,19 @@
         android:text="Carry: -"
         android:textColor="@color/white"
         android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_atual_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/recycler_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

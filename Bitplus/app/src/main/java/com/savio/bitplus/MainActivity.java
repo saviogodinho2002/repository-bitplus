@@ -10,33 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.xwray.groupie.Group;
 import com.xwray.groupie.GroupAdapter;
-import com.xwray.groupie.GroupDataObserver;
 import com.xwray.groupie.Item;
 import com.xwray.groupie.ViewHolder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.lang.Math;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtAtualNumber;
     private TextView txtAtualState;
     private TextView txtCarry;
-
+    private TextView txtAtual;
     private  Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +43,10 @@ public class MainActivity extends AppCompatActivity {
         cxNumber = findViewById(R.id.cx_binario);
         btnSetBinary = findViewById(R.id.btn_setnumeber);
         rv = findViewById(R.id.recycler_main);
-        txtAtualNumber = findViewById(R.id.txt_atual_number);
+        txtAtualNumber = findViewById(R.id.txt_atual_bit);
         txtAtualState = findViewById(R.id.txt_state);
         txtCarry = findViewById(R.id.txt_carry);
+        txtAtual = findViewById(R.id.txt_atual_number);
         adapter = new GroupAdapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
         handler = new Handler();
@@ -75,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
                 txtAtualNumber.setText("Bit: 1" );
                 txtCarry.setText("Carry: -");
                 txtAtualState.setText(
-                        "trocou para: -\npróximo bit: -");
+                        "É 0?\n\n");
 
                     adapter.clear();
+                txtAtual.setText("");
                 fetchBinary();
 
             }
@@ -94,23 +82,52 @@ public class MainActivity extends AppCompatActivity {
         List<String> binList = new ArrayList<>();
         List<String> binNumList = new ArrayList<>();
 
+
         int numBits = (int) (Math.log(number) / Math.log(2));
 
         for(int i = 0;i<numBits;i++) {
             binList.add("0");
             adapter.add(new ItemBinario("0",0));
+            bin+="0";
         }
         binList.add("0");
         adapter.add(new ItemBinario("0",0));
-
+        bin+="0";
+        txtAtual.setText("0");
         int lastindice = numBits;
 
-        int delayH = 1000;
+        int delayH = 1500;
 
         for(int i = 0;i<number;i++) {
             boolean carry = true;
             int count = 0;
             while (carry) {
+
+                String finalBin = bin;
+                int finalCount = count;
+                int finalI = i;
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        char[] binarios = finalBin.toCharArray();
+                        Log.e("teste",binarios.toString());
+                        txtCarry.setText("Carry: 1");
+                        txtAtualNumber.setText("Bit: "+(finalCount+1) );
+                        txtAtualState.setText("É 0?\n\n" );
+                        txtAtual.setText(""+ finalI);
+                        adapter.clear();
+                        for (char b:
+                                binarios) {
+                            String bi =String.valueOf(b);
+                            ItemBinario itemBinario = new ItemBinario(bi,((numBits -adapter.getItemCount()) == finalCount)?4:0);
+
+                            adapter.add(itemBinario);
+                        }
+
+                    }
+                }, delayH += 1500);
+
 
                 if (binList.get(lastindice - count).equals("0")) {
                     binList.set(lastindice - count, "1");
@@ -126,13 +143,49 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 binNumList.add(bin);
+                
 
-
-                String finalBin = bin;
-                int finalCount = count;
                 boolean finalCarry = carry;
+                String finalBin1 = bin;
 
                 handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.clear();
+                        char[] binarios = finalBin1.toCharArray();
+                        Log.e("teste",binarios.toString());
+                        txtAtualNumber.setText("Bit: "+(finalCount+1) );
+                        txtCarry.setText(finalCarry?"Carry: 1":"Carry: 0");
+                        txtAtualState.setText((finalCarry ?
+                                "É 0?\nnão\n"
+                                :"É 0?\nsim\n"));
+                        txtAtual.setText((finalCarry ?
+                                ""+finalI
+                                :""+(finalI+1) ));
+                        for (char b:
+                                binarios) {
+                            String bi =String.valueOf(b);
+                            ItemBinario itemBinario = new ItemBinario(bi,( (numBits -adapter.getItemCount()) == finalCount)?
+                                    (!finalCarry?2:1)
+                                    :0);
+
+                            adapter.add(itemBinario);
+                        }
+
+                    }
+                }, delayH += 1500);
+
+                count++;
+            }
+        }
+        Log.e("teste",""+numBits);
+
+
+
+
+
+        /*
+ handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         adapter.clear();
@@ -155,18 +208,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }, delayH += 2000);
-
-                count++;
-            }
-        }
-        Log.e("teste",""+numBits);
-
-
-
-
-
-        /*
-
         int delay = 0;   // delay de 2 seg.
         int interval = 1000;  // intervalo de 1 seg.
         for (String binario : binNumList) {
@@ -316,7 +357,8 @@ public class MainActivity extends AppCompatActivity {
                     flag ==1?
                     Color.BLUE:
                     flag ==2?
-                    Color.RED:Color.BLACK);
+                    Color.RED:
+                            Color.GREEN);
             //0 = branco
             // 1 = azul
             //2 = vermelho
