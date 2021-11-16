@@ -4,43 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#131313"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/btn_setnumeber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
         android:text="@string/btngetbin"
         android:textColor="@color/white"
         app:backgroundTint="@color/purple100"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cx_binario"
-        app:layout_constraintStart_toStartOf="@+id/cx_binario"
-        app:layout_constraintTop_toBottomOf="@+id/cx_binario" />
+        app:layout_constraintStart_toStartOf="@+id/cx_binario" />
 
     <EditText
         android:id="@+id/cx_binario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
         android:ems="10"
         android:gravity="center"
         android:hint="@string/zero"
         android:inputType="number"
+        android:textColor="@color/white"
+        android:textColorHint="#A4FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/btn_setnumeber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_main" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_main"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginBottom="200dp"
         android:background="@color/greyBlack"
         android:foregroundGravity="center_vertical|center|center_horizontal|fill"
+        android:minWidth="40dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cx_binario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_atual_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Bit : -"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/recycler_main" />
+
+    <TextView
+        android:id="@+id/txt_state"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="5dp"
+        android:text="trocou para: -\nproximo bit: -"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_atual_number" />
+
+    <TextView
+        android:id="@+id/txt_carry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Carry: -"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

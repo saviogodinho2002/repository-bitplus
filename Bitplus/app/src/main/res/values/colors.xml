@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="purple100">#5E4D85</color>
     <color name="greyBlack">#353839</color>
+    <color name="red">#ff0000</color>
+    <color name="blue">#0000FF</color>
 </resources>
